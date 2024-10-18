@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Single item</title>
+    <link rel="stylesheet" href="..//static/css/bootstrap.min.css">
+    <script src="../static/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+   <div class="container-fluid">
+
+    <!-- include nav bar -->
+    {% include 'navbar.html'%}
+    <section class="row">
+        <div class="col-md-4 p-5 "> <img src="../static/images/{{ product[5] }}" alt="" class="w-100"></div>
+        <div class="col-md-8 p-5 card-shadow">
+            <!-- tittle -->
+            <h3 class="text-dark">{{ product[1] }}</h3>
+            <br><p>{{ product[2] }}</p>
+            <br>
+            <b class="text-danger">product category: <br>{{ product[4] }}</b> <br> <br>
+            <b class="text-success">product Quantity: 1</b> <br><br>
+            <b class="text-success">product Cost: <br> KSh {{ product[3] }}</b> <br><br>
+            <!-- check if user exist in session ]key  -->
+             {% if session['key'] %}
+             <!-- it means the usser is log in u can proceed to make payment -->
+
+             <!-- show user a form to complete pament  -->
+              <form action="/mpesa" method="post">
+                <!-- create a phone no. input,. -->
+                <input 
+                type="number" 
+                class="form-control"
+                placeholder="Enter phone no e.g 254xxxxxxxxx"
+                name="phone">
+                <label for=""> To pay ksh</label> <br>
+                <input type="number" class="form-control" name="amount" value="{{ product[3] }}" readonly><br>
+                <input type="submit" value="Pay Now" class="btn btn-outline-dark">
+              </form>
+
+             {%  else %}
+             <!-- user not logge in ask them to log in or register to purcase  -->
+             <h4 class="text-warning">Please sign in to make purchase</h4>
+             <a href="/login" class="btn btn-outline-dark btn-l">Log in</a>
+
+             {% endif %}
+
+
+        </div>
+    </section>
+   </div>
+   {% include 'footer.html'  %}
+</body>
+</html>
